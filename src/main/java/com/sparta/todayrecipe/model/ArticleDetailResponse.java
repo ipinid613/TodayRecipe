@@ -29,6 +29,7 @@ public class ArticleDetailResponse {
     }
 
     public static ArticleDetailResponse of (Article article) {
+                        // of ==  ArticleDetailResponse findById에 연결된 부분 //
         return ArticleDetailResponse.builder()
                 .id(article.getId())
                 .title(article.getTitle())
