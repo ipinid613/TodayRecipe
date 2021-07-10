@@ -1,12 +1,20 @@
 package com.sparta.todayrecipe.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-@RequiredArgsConstructor
-@Getter
-@Setter
 public class CommentRequestDto {
-    private final String content;
+    private String content;
+
+    public CommentRequestDto(String content) {
+        this.content = content;
+    }
+
+    public CommentRequestDto() {
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

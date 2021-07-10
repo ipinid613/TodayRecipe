@@ -3,10 +3,14 @@ package com.sparta.todayrecipe.controller;
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
+import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.ArticleRepository;
+import com.sparta.todayrecipe.repository.UserRepository;
+import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +24,7 @@ public class ArticleController {
     // 의존성 주입(?) //
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
+    private final UserRepository userRepository;
     // ArticleRequestDto는 의존성이 필요한게 아니고 단순히 파라미터에 들어가는 내용이기 때문에 이곳에 작성하지 않음.
 
     ////////// READ //////////
@@ -37,15 +42,26 @@ public class ArticleController {
 
     ////////// CREATE //////////
     @PostMapping("/api/articles") //게시물 작성
-    public Article createArticle(@RequestBody ArticleRequestDto articleRequestDto) {
-        Article article = new Article(articleRequestDto);
+    public Article createArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        Long id = 12L;
+        User user = userRepository.findById(id).orElse(null);
+        Article article = new Article(articleRequestDto,user);
+//        Article article = new Article(articleRequestDto, userDetails.getUser());
         return articleRepository.save(article);
     }
 
     ////////// UPDATE //////////
     @PutMapping("/api/articles/{id}") //특정 게시물 수정
-    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto) {
-        articleService.update(id, articleRequestDto);
+    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetail) {
+
+//        if(userDetail == null){
+//            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+//        }
+//        articleService.update(id, articleRequestDto, userDetail.getUser());
+        Long passId = 12L;
+        User user = userRepository.findById(passId).orElse(null);
+        articleService.update(id, articleRequestDto, user);
         return id;
     }
 

@@ -30,7 +30,7 @@ public class TestDataRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception{
         //테스트 User 생성
-        User testUser = new User("이태강", passwordEncoder.encode("123"),"lkorea12@naver.com", UserRole.USER);
-        testUser = userRepository.save(testUser);
+//        User testUser = new User("이태강", passwordEncoder.encode("123"),"lkorea12@naver.com", UserRole.USER);
+//        testUser = userRepository.save(testUser);
     }
 }

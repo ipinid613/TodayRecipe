@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Comment extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,9 +26,14 @@ public class Comment extends Timestamped{
     @JoinColumn(nullable = false)
     private Article article;
 
-    public Comment(CommentRequestDto commentRequestDto, Article article){
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+    public Comment(CommentRequestDto commentRequestDto, Article article, User user){
         this.content = commentRequestDto.getContent();
         this.article = article;
+        this.user = user;
     }
 
 }
