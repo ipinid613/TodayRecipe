@@ -15,8 +15,8 @@ public class Article extends Timestamped {
     @Id
     private Long id;
 
-    @Column(nullable = false)
-    private String username;
+//    @Column(nullable = false)
+//    private String username;
 
     @Column(nullable = false)
     private String title;
@@ -24,15 +24,20 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false) // 추가
+    private String imageUrl;
+
     public Article(ArticleRequestDto articleRequestDto) {
-        this.username = articleRequestDto.getUsername();
+//        this.username = articleRequestDto.getUsername();
         this.title = articleRequestDto.getTitle();
         this.content = articleRequestDto.getContent();
+        this.imageUrl = articleRequestDto.getImageUrl(); // 추가
     }
 
     public void update(ArticleRequestDto articleRequestDto) {
-        this.username = articleRequestDto.getUsername();
+//        this.username = articleRequestDto.getUsername();
         this.title = articleRequestDto.getTitle();
         this.content = articleRequestDto.getContent();
+        this.imageUrl = articleRequestDto.getImageUrl(); // 추가
     }
 }

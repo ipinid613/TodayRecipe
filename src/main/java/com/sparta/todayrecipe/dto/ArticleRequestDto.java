@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class ArticleRequestDto {
-    private final String username;
+//    private final String username; // 삭제
     private final String title;
     private final String content;
+    private final String imageUrl;
 }

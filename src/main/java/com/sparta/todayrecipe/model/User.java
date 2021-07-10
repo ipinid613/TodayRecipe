@@ -1,7 +1,6 @@
 package com.sparta.todayrecipe.model;
 
 
-import com.sparta.todayrecipe.Dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
