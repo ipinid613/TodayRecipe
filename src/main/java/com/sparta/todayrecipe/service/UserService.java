@@ -1,7 +1,7 @@
 package com.sparta.todayrecipe.service;
 
 
-import com.sparta.todayrecipe.Dto.SignupRequestDto;
+import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.model.UserRole;
 import com.sparta.todayrecipe.repository.UserRepository;
