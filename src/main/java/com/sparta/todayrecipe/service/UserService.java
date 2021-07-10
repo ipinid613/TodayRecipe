@@ -1,7 +1,7 @@
 package com.sparta.todayrecipe.service;
 
 
-import com.sparta.todayrecipe.Dto.SignupRequestDto;
+import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.model.UserRole;
 import com.sparta.todayrecipe.repository.UserRepository;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class UserService {
     }
 
     // 회원가입
-    public String registerUser(SignupRequestDto signupRequestDto) {
+    public String registerUser(@Valid SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String errorMessage = null;
         // 회원 ID 중복 확인

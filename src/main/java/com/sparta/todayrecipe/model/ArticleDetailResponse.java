@@ -12,20 +12,22 @@ import java.time.LocalDateTime;
 @Getter
 public class ArticleDetailResponse {
     private Long id;
-    private String username;
+//    private String username; // 삭제
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String imageUrl; // 추가
 
     @Builder
-    public ArticleDetailResponse(Long id, String username, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt){
+    public ArticleDetailResponse(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, String imageUrl){
         this.id = id;
-        this.username = username;
+//        this.username = username; // 삭제
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.imageUrl = imageUrl; // 추가
     }
 
     public static ArticleDetailResponse of (Article article) {
@@ -33,10 +35,11 @@ public class ArticleDetailResponse {
         return ArticleDetailResponse.builder()
                 .id(article.getId())
                 .title(article.getTitle())
-                .username(article.getUsername())
+//                .username(article.getUsername()) // 삭제
                 .content(article.getContent())
                 .createdAt(article.getCreatedAt())
                 .modifiedAt(article.getModifiedAt())
+                .imageUrl(article.getImageUrl())
                 .build();
     }
 }

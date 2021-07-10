@@ -1,8 +1,8 @@
 package com.sparta.todayrecipe.controller;
 
 
-import com.sparta.todayrecipe.Dto.SignupRequestDto;
 
+import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.service.UserService;
 import lombok.RequiredArgsConstructor;
 
