@@ -24,9 +24,9 @@ public class CommentService {
         return commentRepository.findByArticle(article);
     }
 
-    public Comment createComment(CommentRequestDto commentRequestDto, User user, Long articleId){
-        Optional<Article> article = articleRepository.findById(articleId);
-        Comment comment = new Comment(commentRequestDto, article, user);
+    public Comment createComment(CommentRequestDto commentRequestDto, Long articleId){
+        Article article = articleRepository.findById(articleId).orElse(null);
+        Comment comment = new Comment(commentRequestDto, article);
         commentRepository.save(comment);
         return comment;
     }

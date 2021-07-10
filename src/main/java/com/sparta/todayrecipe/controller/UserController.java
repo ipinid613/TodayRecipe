@@ -21,7 +21,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
     public Map registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
