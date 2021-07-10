@@ -2,11 +2,16 @@ package com.sparta.todayrecipe.controller;
 
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
+import com.sparta.todayrecipe.model.Role;
+import com.sparta.todayrecipe.model.User;
+import com.sparta.todayrecipe.repository.UserRepository;
+import com.sparta.todayrecipe.security.JwtTokenProvider;
 
 import com.sparta.todayrecipe.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,9 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
 
     // 회원 가입 요청 처리
@@ -41,10 +49,11 @@ public class UserController {
         }
         // 유효성검사 결과 통과 시, "msg" : null 반환하고 db에 저장.
         // 왜 null인가? registerUser에서 아이디 중복확인, 비밀번호 입력 일치여부 등을 판단함. 오류가 없음을 null로 나타내기 때문임.
-        user.put("msg",userService.registerUser(signupRequestDto));
+        user.put("error",userService.registerUser(signupRequestDto));
 
         return user;
     }
+
 
     // 카카오톡
     @GetMapping("/user/kakao/callback")
@@ -54,4 +63,15 @@ public class UserController {
 
     }
 
+    // 로그인
+    @PostMapping("/user/login")
+    public String login(@RequestBody Map<String, String> user) {
+        User member = userRepository.findByUsername(user.get("username"))
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 username 입니다."));
+        if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        System.out.println(jwtTokenProvider.createToken(member.getUsername(), member.getEmail()));
+        return jwtTokenProvider.createToken(member.getUsername(), member.getEmail());
+    }
 }

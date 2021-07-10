@@ -3,7 +3,7 @@ package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.model.User;
-import com.sparta.todayrecipe.model.UserRole;
+import com.sparta.todayrecipe.model.Role;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.security.kakao.KakaoOAuth2;
@@ -32,15 +32,13 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final KakaoOAuth2 kakaoOAuth2;
-    private final AuthenticationManager authenticationManager;
-    private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
+
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
-        this.authenticationManager = authenticationManager;
     }
 
     // 회원가입 시, 유효성 체크
@@ -50,7 +48,7 @@ public class UserService {
             // errors.getFieldErrors() :
             // 입력 정보(아이디, 비밀번호, 비번 재확인, 이메일)의 유효성검사 결과에 대한 오류값(ex : 공백이 있다거나, 정규식 위반하는 경우들)
             // 여러 오류값들을 for문을 돌며 하나 하나씩 꺼냄(ex : 아이디 유효성검사 결과 오류 하나)
-            String validKeyName = String.format("valid_%s", error.getField());
+            String validKeyName = String.format("error", error.getField());
             // 하나의 오류값을 format처리하여 validKeyName에 저장. / ex) {valid_username : "유저명은 필수 입력 값입니다"}
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
@@ -81,19 +79,9 @@ public class UserService {
 
         // 패스워드 인코딩
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
-        // 사용자 ROLE 확인
-        UserRole role = UserRole.USER;
-        if (signupRequestDto.isAdmin()) {
-            if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                errorMessage = "관리자 암호가 틀려 등록이 불가능합니다.";
-//                throw new IllegalArgumentException(errorMessage);
-                return errorMessage;
-            }
-            role = UserRole.ADMIN;
-        }
         /// 위의 조건을 다 통과한 경우에 한해 userRepository.save 가능함 ///
         String email = signupRequestDto.getEmail();
-        User user = new User(username, password, email, role);
+        User user = new User(username, password, email);
         userRepository.save(user);
         return errorMessage;
     }
@@ -124,17 +112,15 @@ public class UserService {
                 // username = 카카오 nickname
                 String username = nickname;
                 // password = 카카오 Id + ADMIN TOKEN
-                String password = kakaoId + ADMIN_TOKEN;
+                String password = kakaoId + "dkjflkdjfioepfjdkjdflsl4ljssdkljf";
                 // 패스워드 인코딩
                 String encodedPassword = passwordEncoder.encode(password);
                 // ROLE = 사용자
-                UserRole role = UserRole.USER;
 
-                kakaoUser = new User(username, encodedPassword, email, role, kakaoId);
+                kakaoUser = new User(username, encodedPassword, email, kakaoId);
                 userRepository.save(kakaoUser);
             }
         }
-
         // 강제 로그인 처리
         UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
