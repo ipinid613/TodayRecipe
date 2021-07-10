@@ -27,6 +27,7 @@ public class CommentController {
         return commentService.getAllComments(articleId);
     }
 
+    @ApiOperation("게시물의 댓글 작성")
     @PostMapping("/api/articles/{articleId}/comments")
     public Comment createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto){
         Comment comment = commentService.createComment(commentRequestDto,articleId);
