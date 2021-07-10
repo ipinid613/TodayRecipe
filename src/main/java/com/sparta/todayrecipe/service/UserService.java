@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -46,15 +47,19 @@ public class UserService {
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
         for (FieldError error : errors.getFieldErrors()) {
+            // errors.getFieldErrors() :
+            // 입력 정보(아이디, 비밀번호, 비번 재확인, 이메일)의 유효성검사 결과에 대한 오류값(ex : 공백이 있다거나, 정규식 위반하는 경우들)
+            // 여러 오류값들을 for문을 돌며 하나 하나씩 꺼냄(ex : 아이디 유효성검사 결과 오류 하나)
             String validKeyName = String.format("valid_%s", error.getField());
+            // 하나의 오류값을 format처리하여 validKeyName에 저장. / ex) {valid_username : "유저명은 필수 입력 값입니다"}
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
 
-        return validatorResult;
+        return validatorResult; // 유효성검사 통과 시 {msg : null} 반환하고 db에 저장됨.
     }
 
     // 회원가입
-    public String registerUser(SignupRequestDto signupRequestDto) {
+    public String registerUser(@Valid SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String errorMessage = null;
         // 회원 ID 중복 확인
@@ -86,6 +91,7 @@ public class UserService {
             }
             role = UserRole.ADMIN;
         }
+        /// 위의 조건을 다 통과한 경우에 한해 userRepository.save 가능함 ///
         String email = signupRequestDto.getEmail();
         User user = new User(username, password, email, role);
         userRepository.save(user);
