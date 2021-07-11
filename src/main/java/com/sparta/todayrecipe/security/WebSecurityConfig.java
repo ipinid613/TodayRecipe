@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,8 +27,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/notices").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/article/**").authenticated()
+//                .antMatchers("/**").permitAll() // 우선 모두에게 로그인 허용
                 // 그 외 모든 요청은 인증과정 필요
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/user/login")

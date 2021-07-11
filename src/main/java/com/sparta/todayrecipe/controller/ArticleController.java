@@ -44,10 +44,10 @@ public class ArticleController {
     @PostMapping("/api/articles") //게시물 작성
     public Article createArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        Long id = 12L;
-        User user = userRepository.findById(id).orElse(null);
-        Article article = new Article(articleRequestDto,user);
-//        Article article = new Article(articleRequestDto, userDetails.getUser());
+        if(userDetails == null){
+            throw new IllegalArgumentException("로그인 한 사용자만 쓰기 명령을 시도할 수 있습니다.");
+        }
+        Article article = new Article(articleRequestDto, userDetails.getUser());
         return articleRepository.save(article);
     }
 
@@ -55,13 +55,10 @@ public class ArticleController {
     @PutMapping("/api/articles/{id}") //특정 게시물 수정
     public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetail) {
 
-//        if(userDetail == null){
-//            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
-//        }
-//        articleService.update(id, articleRequestDto, userDetail.getUser());
-        Long passId = 12L;
-        User user = userRepository.findById(passId).orElse(null);
-        articleService.update(id, articleRequestDto, user);
+        if(userDetail == null){
+            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+        }
+        articleService.update(id, articleRequestDto, userDetail.getUser());
         return id;
     }
 
