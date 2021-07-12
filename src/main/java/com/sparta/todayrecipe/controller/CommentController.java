@@ -3,16 +3,11 @@ package com.sparta.todayrecipe.controller;
 import com.sparta.todayrecipe.dto.CommentRequestDto;
 import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.CommentRequestException;
-import com.sparta.todayrecipe.model.Comment;
-import com.sparta.todayrecipe.model.User;
-import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.CommentService;
-import com.sparta.todayrecipe.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.SwaggerDefinition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +20,6 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final UserRepository userRepository;
 
     @ApiOperation("게시물의 댓글 조회")
     @GetMapping("/api/articles/{articleId}/comments")
