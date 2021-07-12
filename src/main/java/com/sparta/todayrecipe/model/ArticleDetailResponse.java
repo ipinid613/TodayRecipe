@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ArticleDetailResponse {
     private Long id;
-//    private String username; // 삭제
+    private String username;
     private String title;
     private String content;
     private LocalDateTime createdAt;
@@ -20,9 +20,9 @@ public class ArticleDetailResponse {
     private String imageUrl; // 추가
 
     @Builder
-    public ArticleDetailResponse(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, String imageUrl){
+    public ArticleDetailResponse(Long id, String username, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, String imageUrl){
         this.id = id;
-//        this.username = username; // 삭제
+        this.username = username; // 삭제
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
@@ -35,7 +35,7 @@ public class ArticleDetailResponse {
         return ArticleDetailResponse.builder()
                 .id(article.getId())
                 .title(article.getTitle())
-//                .username(article.getUsername()) // 삭제
+                .username(article.getUser().getUsername()) // 삭제
                 .content(article.getContent())
                 .createdAt(article.getCreatedAt())
                 .modifiedAt(article.getModifiedAt())

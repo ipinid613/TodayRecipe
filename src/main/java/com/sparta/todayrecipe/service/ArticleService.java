@@ -1,6 +1,7 @@
 package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
+import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
 import com.sparta.todayrecipe.model.User;
