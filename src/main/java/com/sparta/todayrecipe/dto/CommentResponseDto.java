@@ -1,12 +1,12 @@
 package com.sparta.todayrecipe.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Setter
 @Getter
-
 public class CommentResponseDto {
     private final Long id;
     private final String content;
@@ -19,5 +19,4 @@ public class CommentResponseDto {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
-
 }
