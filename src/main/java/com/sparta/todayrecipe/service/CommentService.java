@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.controller.CommentRequestDto;
 import com.sparta.todayrecipe.controller.CommentResponseDto;
+import com.sparta.todayrecipe.exception.CommentRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.Comment;
 import com.sparta.todayrecipe.model.User;

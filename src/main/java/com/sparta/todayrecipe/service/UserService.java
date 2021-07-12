@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class UserService {
     }
 
     // 회원가입
-    public String registerUser(@Valid SignupRequestDto signupRequestDto) {
+    public String registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String errorMessage = null;
         // 회원 ID 중복 확인

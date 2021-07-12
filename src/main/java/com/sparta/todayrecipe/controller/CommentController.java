@@ -1,7 +1,13 @@
 package com.sparta.todayrecipe.controller;
 
+import com.sparta.todayrecipe.exception.CommentRequestException;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
+import com.sparta.todayrecipe.service.CommentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
