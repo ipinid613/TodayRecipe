@@ -3,10 +3,15 @@ package com.sparta.todayrecipe.controller;
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
 
+import com.sparta.todayrecipe.dto.UserAuthResponse;
+import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +22,21 @@ import java.util.Map;
 
 @RequiredArgsConstructor // final로 선언된 멤버 변수를 자동으로 생성합니다.
 @RestController // JSON으로 데이터를 주고받음을 선언합니다.
+@Api(value = "UserController V1")
 public class UserController {
 
     private final UserService userService;
+
+    //현재 로그인 된 사용자의 정보와, 현재 로그인 되어있는지 여부
+    @ApiOperation("현재 로그인 된 사용자의 정보와, 현재 로그인 되어있는지 여부")
+    @GetMapping("/api/user")
+    public UserAuthResponse showUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return (userDetails == null) ? UserAuthResponse.empty() :
+                UserAuthResponse.builder()
+                .username(userDetails.getUsername())
+                .build();
+    }
+
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
