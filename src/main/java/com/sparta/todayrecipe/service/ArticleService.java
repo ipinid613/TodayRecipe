@@ -20,11 +20,11 @@ public class ArticleService {
     @Transactional
     public Long update(Long id, ArticleRequestDto articleRequestDto, User user) {
         Article article = articleRepository.findById(id).orElseThrow(
-                () -> new ArticleRequestException("requested articleId가 DB에 없습니다.")
+                () -> new ArticleRequestException("requested id가 DB에 없습니다.")
         );
 
         if (!article.getUser().getId().equals(user.getId())) {
-            throw new ArticleRequestException("로그인 한 사용자와, 게시물 작성자가 다릅니다.");
+            throw new ArticleRequestException("로그인 한 사용자와 게시물 작성자가 다릅니다.");
         }
 
         article.setContent(articleRequestDto.getContent());
@@ -48,11 +48,11 @@ public class ArticleService {
     @Transactional
     public void delete(Long id, User user) {
         Article article = articleRepository.findById(id).orElseThrow(
-        () -> new ArticleRequestException("requested articleId가 DB에 없습니다.")
+        () -> new ArticleRequestException("requested id가 DB에 없습니다.")
         );
 
         if(!article.getUser().getId().equals(user.getId())){
-            throw new ArticleRequestException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
+            throw new ArticleRequestException("로그인 한 사용자와 게시글 작성자가 다릅니다.");
         }
 
         articleRepository.delete(article);
