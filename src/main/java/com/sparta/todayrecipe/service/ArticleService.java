@@ -3,6 +3,7 @@ package com.sparta.todayrecipe.service;
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
+import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,19 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public Long update(Long id,ArticleRequestDto articleRequestDto) {
+    public Long update(Long id,ArticleRequestDto articleRequestDto, User user) {
         Article article = articleRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 게시글 고유아이디가 존재하지 않습니다.")
         );
-        article.update(articleRequestDto);
+
+        if(!article.getUser().getId().equals(user.getId())){
+            throw new IllegalArgumentException("로그인 한 사용자와, 작성자가 다릅니다.");
+        }
+
+        article.setContent(articleRequestDto.getContent());
+        article.setTitle(articleRequestDto.getTitle());
+        article.setImageUrl(articleRequestDto.getImageUrl());
+        articleRepository.save(article);
         return article.getId();
     }
     //@Transactional 안씀. DB의 내용을 조회하는 것이지 변경하는 과정이 없기 때문.

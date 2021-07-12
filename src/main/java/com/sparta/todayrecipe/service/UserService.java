@@ -50,7 +50,7 @@ public class UserService {
             // errors.getFieldErrors() :
             // 입력 정보(아이디, 비밀번호, 비번 재확인, 이메일)의 유효성검사 결과에 대한 오류값(ex : 공백이 있다거나, 정규식 위반하는 경우들)
             // 여러 오류값들을 for문을 돌며 하나 하나씩 꺼냄(ex : 아이디 유효성검사 결과 오류 하나)
-            String validKeyName = String.format("valid_%s", error.getField());
+            String validKeyName = String.format("error", error.getField());
             // 하나의 오류값을 format처리하여 validKeyName에 저장. / ex) {valid_username : "유저명은 필수 입력 값입니다"}
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }

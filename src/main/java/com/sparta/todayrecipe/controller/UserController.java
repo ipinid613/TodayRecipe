@@ -21,7 +21,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
     public Map registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto, Errors errors) {
@@ -39,9 +38,9 @@ public class UserController {
             return user; // 어쨋든 - 유효성검사를 돌고 나온 결과값을 딕셔너리 형태(Map)로 return해준다.
 
         }
-        // 유효성검사 결과 통과 시, "msg" : null 반환하고 db에 저장.
+        // 유효성검사 결과 통과 시, "error" : null 반환하고 db에 저장.
         // 왜 null인가? registerUser에서 아이디 중복확인, 비밀번호 입력 일치여부 등을 판단함. 오류가 없음을 null로 나타내기 때문임.
-        user.put("msg",userService.registerUser(signupRequestDto));
+        user.put("error",userService.registerUser(signupRequestDto));
 
         return user;
     }
