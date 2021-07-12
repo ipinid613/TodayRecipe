@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.CommentRequestDto;
 import com.sparta.todayrecipe.dto.CommentResponseDto;
+import com.sparta.todayrecipe.exception.CommentRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.Comment;
 import com.sparta.todayrecipe.model.User;
@@ -40,7 +41,7 @@ public class CommentService {
 
     public Comment createComment(CommentRequestDto commentRequestDto, Long articleId, User user){
         Article article = articleRepository.findById(articleId).orElseThrow(
-                ()->new IllegalArgumentException("일치하는 게시글 고유 아이디가 존재하지 않습니다.")
+                ()->new CommentRequestException("requested articleId가 DB에 없습니다.")
         );
         Comment comment = new Comment(commentRequestDto, article, user);
         commentRepository.save(comment);
@@ -52,13 +53,27 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long articleId, Long commentId, User user){
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()->new IllegalArgumentException("일치하는 댓글이 없습니다.")
+                ()->new CommentRequestException("requested commentId가 DB에 없습니다.")
         );
-        if(!comment.getUser().equals(user)){
-            throw new IllegalArgumentException("로그인 한 사용자와, 작성자가 다릅니다.");
+
+        if(!comment.getUser().getId().equals(user.getId())){
+            throw new CommentRequestException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
         }
 
         commentRepository.delete(comment);
     }
 
+    @Transactional
+    public void updateComment(CommentRequestDto commentRequestDto, Long articleId, Long commentId, User user) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new CommentRequestException("requested commentId가 DB에 없습니다.")
+        );
+
+        if(!comment.getUser().getId().equals(user.getId())){
+            throw new CommentRequestException("로그인 한 사용자와, 댓글 작성자가 다릅니다.");
+        }
+
+        comment.setContent(commentRequestDto.getContent());
+        commentRepository.save(comment);
+    }
 }
