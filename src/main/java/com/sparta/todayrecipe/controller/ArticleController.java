@@ -54,13 +54,20 @@ public class ArticleController {
 
     ////////// UPDATE //////////
     @PutMapping("/api/articles/{id}") //특정 게시물 수정
-    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetail) {
+    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        if(userDetail == null){
-            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+        if(userDetails == null){
+            throw new IllegalArgumentException("로그인 한 사용자만 수정 명령을 시도할 수 있습니다.");
         }
-        articleService.update(id, articleRequestDto, userDetail.getUser());
+        articleService.update(id, articleRequestDto, userDetails.getUser());
         return id;
     }
 
+    @DeleteMapping("/api/articles/{id}")
+    public void deleteArticle(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        if(userDetails == null){
+            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+        }
+        articleService.delete(id,userDetails.getUser());
+    }
 }
