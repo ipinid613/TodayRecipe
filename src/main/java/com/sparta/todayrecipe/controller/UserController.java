@@ -2,7 +2,6 @@ package com.sparta.todayrecipe.controller;
 
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
-import com.sparta.todayrecipe.model.Role;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.JwtTokenProvider;

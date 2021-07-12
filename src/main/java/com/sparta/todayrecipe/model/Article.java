@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 public class Article extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,17 +28,22 @@ public class Article extends Timestamped {
     @Column(nullable = false) // 추가
     private String imageUrl;
 
-    public Article(ArticleRequestDto articleRequestDto) {
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+    public Article(ArticleRequestDto articleRequestDto, User user) {
 //        this.username = articleRequestDto.getUsername();
         this.title = articleRequestDto.getTitle();
         this.content = articleRequestDto.getContent();
         this.imageUrl = articleRequestDto.getImageUrl(); // 추가
+        this.user = user;
     }
 
-    public void update(ArticleRequestDto articleRequestDto) {
-//        this.username = articleRequestDto.getUsername();
-        this.title = articleRequestDto.getTitle();
-        this.content = articleRequestDto.getContent();
-        this.imageUrl = articleRequestDto.getImageUrl(); // 추가
-    }
+//    public void update(ArticleRequestDto articleRequestDto) {
+////        this.username = articleRequestDto.getUsername();
+//        this.title = articleRequestDto.getTitle();
+//        this.content = articleRequestDto.getContent();
+//        this.imageUrl = articleRequestDto.getImageUrl(); // 추가
+//    }
 }

@@ -3,7 +3,6 @@ package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.model.User;
-import com.sparta.todayrecipe.model.Role;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.security.kakao.KakaoOAuth2;
@@ -11,7 +10,6 @@ import com.sparta.todayrecipe.security.kakao.KakaoUserInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,7 +71,7 @@ public class UserService {
             return errorMessage;
         }
         if (!signupRequestDto.getPassword().equals(signupRequestDto.getRepassword())) {
-            errorMessage = "비밀번호가 일치하지 않습니다..";
+            errorMessage = "비밀번호가 일치하지 않습니다.";
             return errorMessage;
         }
 

@@ -1,18 +1,9 @@
-package com.sparta.todayrecipe.dto;
-
-
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
+package com.sparta.todayrecipe.controller;
 
 @Setter
 @Getter
 public class SignupRequestDto {
     private Long id;
-
 
     @NotBlank(message = "유저명은 필수 입력 값입니다.")
     private String username;
@@ -25,5 +16,9 @@ public class SignupRequestDto {
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     @Email(message = "이메일 형식에 맞지 않습니다.")
     private String email;
+
+    private boolean admin = false;
+
+    private String adminToken = "";
 
 }

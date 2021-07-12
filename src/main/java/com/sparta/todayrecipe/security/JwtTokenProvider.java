@@ -1,6 +1,5 @@
 package com.sparta.todayrecipe.security;
 
-import com.sparta.todayrecipe.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
