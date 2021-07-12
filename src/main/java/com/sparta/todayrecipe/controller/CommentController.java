@@ -39,7 +39,7 @@ public class CommentController {
     @PostMapping("/api/articles/{articleId}/comments")
     public void createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
-            throw new CommentRequestException("로그인을 해야, 댓글을 작성할 수 있습니다.");
+            throw new CommentRequestException("로그인을 해야 댓글을 작성할 수 있습니다.");
         }
         commentService.createComment(commentRequestDto, articleId, userDetails.getUser());
     }
@@ -58,7 +58,7 @@ public class CommentController {
     @PutMapping("/api/articles/{articleId}/comments/{commentId}")
     public void updateComment(@RequestBody CommentRequestDto commentRequestDto, @PathVariable Long articleId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(userDetails==null){
-            throw new CommentRequestException("로그인을 해야 댓글 수정이 가능합니다.");
+            throw new CommentRequestException("로그인을 해야 댓글을 수정할 수 있습니다.");
         }
         commentService.updateComment(commentRequestDto, articleId, commentId, userDetails.getUser());
     }
