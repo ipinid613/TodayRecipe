@@ -38,9 +38,9 @@ public class CommentController {
     @PostMapping("/api/articles/{articleId}/comments")
     public void createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        Long passId = 12L;
-        User user = userRepository.findById(passId).orElse(null);
-        commentService.createComment(commentRequestDto, articleId, user);
+//        Long passId = 12L;
+//        User user = userRepository.findById(passId).orElse(null);
+        commentService.createComment(commentRequestDto, articleId, userDetails.getUser());
     }
 
     //완료

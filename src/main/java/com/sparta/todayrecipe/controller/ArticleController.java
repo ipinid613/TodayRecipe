@@ -33,6 +33,7 @@ public class ArticleController {
     public List<Article> readArticle() {
         return articleRepository.findAllByOrderByModifiedAtDesc();
     }
+
     ///특정 게시물 조회///
     // ResponseEntity = HttpRequest에 대한 응답 데이터 포함하는 클래스.
     @GetMapping("/api/articles/{id}")

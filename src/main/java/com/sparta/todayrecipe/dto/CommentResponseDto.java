@@ -20,6 +20,4 @@ public class CommentResponseDto {
         this.modifiedAt = modifiedAt;
     }
 
-
-
 }

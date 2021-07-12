@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/article/**").authenticated()
+                .antMatchers("/**").permitAll()
 //                .antMatchers("/**").permitAll() // 우선 모두에게 로그인 허용
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()

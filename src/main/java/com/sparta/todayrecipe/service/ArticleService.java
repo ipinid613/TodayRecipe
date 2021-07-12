@@ -21,7 +21,8 @@ public class ArticleService {
         Article article = articleRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 게시글 고유아이디가 존재하지 않습니다.")
         );
-        if(!article.getUser().equals(user)){
+
+        if(!article.getUser().getId().equals(user.getId())){
             throw new IllegalArgumentException("로그인 한 사용자와, 작성자가 다릅니다.");
         }
 
