@@ -37,16 +37,15 @@ public class CommentController {
     @ApiOperation("게시물의 댓글 작성")
     @PostMapping("/api/articles/{articleId}/comments")
     public void createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-//        Long passId = 12L;
-//        User user = userRepository.findById(passId).orElse(null);
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인을 해야, 댓글을 작성할 수 있습니다.");
+        }
         commentService.createComment(commentRequestDto, articleId, userDetails.getUser());
     }
 
-    //완료
     @ApiOperation("게시물의 댓글 삭제")
     @DeleteMapping("/api/articles/{articleId}/comments/{commentId}")
-    public void deleteComment(@PathVariable Long articleId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public void deleteComment(@PathVariable Long articleId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        if(userDetails==null){
 //            throw new IllegalArgumentException("삭제하려면 로그인 ㄱㄱ");
 //        }
@@ -54,7 +53,7 @@ public class CommentController {
         Long passId = 12L;
         User user = userRepository.findById(passId).orElse(null);
 
-        commentService.deleteComment(articleId,commentId,user);
+        commentService.deleteComment(articleId, commentId, user);
 
     }
 }

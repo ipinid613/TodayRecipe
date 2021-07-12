@@ -10,6 +10,7 @@ import com.sparta.todayrecipe.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,9 @@ public class CommentService {
     }
 
     public Comment createComment(CommentRequestDto commentRequestDto, Long articleId, User user){
-        Article article = articleRepository.findById(articleId).orElse(null);
+        Article article = articleRepository.findById(articleId).orElseThrow(
+                ()->new IllegalArgumentException("일치하는 게시글 고유 아이디가 존재하지 않습니다.")
+        );
         Comment comment = new Comment(commentRequestDto, article, user);
         commentRepository.save(comment);
         return comment;
@@ -46,6 +49,7 @@ public class CommentService {
 
 
     //완료
+    @Transactional
     public void deleteComment(Long articleId, Long commentId, User user){
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()->new IllegalArgumentException("일치하는 댓글이 없습니다.")
