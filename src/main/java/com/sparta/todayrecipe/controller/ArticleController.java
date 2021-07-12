@@ -5,7 +5,6 @@ import com.sparta.todayrecipe.dto.ArticleResponseDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
-import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.ArticleRepository;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;

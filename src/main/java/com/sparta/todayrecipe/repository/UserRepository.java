@@ -1,7 +1,5 @@
 package com.sparta.todayrecipe.repository;
 
-
-
 import com.sparta.todayrecipe.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

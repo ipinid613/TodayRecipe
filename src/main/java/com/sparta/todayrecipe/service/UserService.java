@@ -69,13 +69,8 @@ public class UserService {
 //            throw new IllegalArgumentException(errorMessage);
             return errorMessage;
         }
-        // 패스워드 속에 아이디값 중복 없애기
-        if(signupRequestDto.getPassword().contains(username) || username.contains(signupRequestDto.getPassword())) {
-            errorMessage = "ID을 포함한 비번은 사용불가합니다.";
-            return errorMessage;
-        }
         if (!signupRequestDto.getPassword().equals(signupRequestDto.getRepassword())) {
-            errorMessage = "비밀번호가 일치하지 않습니다..";
+            errorMessage = "비밀번호가 일치하지 않습니다.";
             return errorMessage;
         }
 
