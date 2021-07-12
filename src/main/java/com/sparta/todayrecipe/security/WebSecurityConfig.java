@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.cors();
         http.headers().frameOptions().disable();
+
         http.authorizeRequests()
                 // image 폴더를 login 없이 허용
 //                .antMatchers("/images/**").permitAll()
@@ -59,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/user/login")
                 .loginProcessingUrl("/user/login")
+//                .defaultSuccessUrl("/")
+//                .failureUrl("/user/login/error")
                 .successHandler((request, response, authentication) -> {
                     //do nothing
                 })
