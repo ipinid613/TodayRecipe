@@ -25,7 +25,6 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final UserRepository userRepository;
 
     @ApiOperation("게시물의 댓글 조회")
     @GetMapping("/api/articles/{articleId}/comments")
