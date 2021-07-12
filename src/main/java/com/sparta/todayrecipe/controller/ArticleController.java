@@ -1,6 +1,8 @@
 package com.sparta.todayrecipe.controller;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
+import com.sparta.todayrecipe.dto.ArticleResponseDto;
+import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
 import com.sparta.todayrecipe.model.User;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,8 +33,27 @@ public class ArticleController {
     ////////// READ //////////
     ///모든 게시물 조회///
     @GetMapping("/api/articles")
-    public List<Article> readArticle() {
-        return articleRepository.findAllByOrderByModifiedAtDesc();
+    public List<ArticleResponseDto> readArticle() {
+
+        List<Article> articles = articleRepository.findAllByOrderByModifiedAtDesc();
+
+        List<ArticleResponseDto> articleResponseDtos = new ArrayList<>();
+
+        for(Article article : articles){
+            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getUser().getUsername(),
+                    article.getContent(),
+                    article.getCreatedAt(),
+                    article.getModifiedAt(),
+                    article.getImageUrl()
+            );
+
+            articleResponseDtos.add(articleResponseDto);
+        }
+
+        return articleResponseDtos;
     }
 
     ///특정 게시물 조회///
@@ -46,7 +68,7 @@ public class ArticleController {
     public Article createArticle(@RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         if(userDetails == null){
-            throw new IllegalArgumentException("로그인 한 사용자만 쓰기 명령을 시도할 수 있습니다.");
+            throw new ArticleRequestException("로그인 한 사용자만 쓰기 명령을 시도할 수 있습니다.");
         }
         Article article = new Article(articleRequestDto, userDetails.getUser());
         return articleRepository.save(article);
@@ -54,13 +76,20 @@ public class ArticleController {
 
     ////////// UPDATE //////////
     @PutMapping("/api/articles/{id}") //특정 게시물 수정
-    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetail) {
+    public Long updateArticle(@PathVariable Long id, @RequestBody ArticleRequestDto articleRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        if(userDetail == null){
-            throw new IllegalArgumentException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+        if(userDetails == null){
+            throw new ArticleRequestException("로그인 한 사용자만 수정 명령을 시도할 수 있습니다.");
         }
-        articleService.update(id, articleRequestDto, userDetail.getUser());
+        articleService.update(id, articleRequestDto, userDetails.getUser());
         return id;
     }
 
+    @DeleteMapping("/api/articles/{id}")
+    public void deleteArticle(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        if(userDetails == null){
+            throw new ArticleRequestException("로그인 한 사용자만 삭제 명령을 시도할 수 있습니다.");
+        }
+        articleService.delete(id,userDetails.getUser());
+    }
 }
