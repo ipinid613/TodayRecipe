@@ -4,6 +4,7 @@ import com.sparta.todayrecipe.dto.ArticleRequestDto;
 import com.sparta.todayrecipe.repository.ArticleRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
