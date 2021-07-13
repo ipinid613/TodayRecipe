@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.controller;
 
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
+import com.sparta.todayrecipe.exception.UserRequestException;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.JwtTokenProvider;
@@ -68,9 +69,9 @@ public class UserController {
     @PostMapping("/user/login")
     public List<Map<String,String>> login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByUsername(user.get("username"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 username 입니다."));
+                .orElseThrow(() -> new UserRequestException("가입되지 않은 username 입니다."));
         if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new UserRequestException("잘못된 비밀번호입니다.");
         }
         Map<String,String>username =new HashMap<>();
         Map<String,String>token = new HashMap<>();
