@@ -15,7 +15,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -64,13 +66,19 @@ public class UserController {
 
     // 로그인
     @PostMapping("/user/login")
-    public String login(@RequestBody Map<String, String> user) {
+    public List<Map<String,String>> login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByUsername(user.get("username"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 username 입니다."));
         if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        System.out.println(jwtTokenProvider.createToken(member.getUsername(), member.getEmail()));
-        return jwtTokenProvider.createToken(member.getUsername(), member.getEmail());
+        Map<String,String>username =new HashMap<>();
+        Map<String,String>token = new HashMap<>();
+        List<Map<String,String>> tu = new ArrayList<>();
+        token.put("token",jwtTokenProvider.createToken(member.getUsername(), member.getEmail()));
+        username.put("username",member.getUsername());
+        tu.add(username);
+        tu.add(token);
+        return tu;
     }
 }

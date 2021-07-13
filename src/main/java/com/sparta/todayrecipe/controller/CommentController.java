@@ -1,5 +1,7 @@
 package com.sparta.todayrecipe.controller;
 
+import com.sparta.todayrecipe.dto.CommentRequestDto;
+import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.CommentRequestException;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.CommentService;

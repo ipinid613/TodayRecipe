@@ -1,4 +1,4 @@
-package com.sparta.todayrecipe.controller;
+package com.sparta.todayrecipe.dto;
 
 public class CommentRequestDto {
     private String content;

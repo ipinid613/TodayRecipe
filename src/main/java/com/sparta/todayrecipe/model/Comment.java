@@ -1,6 +1,6 @@
 package com.sparta.todayrecipe.model;
 
-import com.sparta.todayrecipe.controller.CommentRequestDto;
+import com.sparta.todayrecipe.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

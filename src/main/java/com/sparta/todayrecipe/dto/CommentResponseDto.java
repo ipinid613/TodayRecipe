@@ -1,4 +1,4 @@
-package com.sparta.todayrecipe.controller;
+package com.sparta.todayrecipe.dto;
 
 import lombok.Getter;
 import lombok.Setter;

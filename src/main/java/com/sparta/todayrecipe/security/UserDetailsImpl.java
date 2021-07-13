@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.SQLOutput;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -55,4 +56,5 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
+
 }
