@@ -8,25 +8,19 @@ import lombok.*;
 @Getter
 @Setter
 public class MyInfoResponseDto {
-    private Long userId;
     private String username;
     private String email;
-    private String password;
 
     @Builder
-    public MyInfoResponseDto(Long userId, String username, String email, String password) {
-        this.userId = userId;
+    public MyInfoResponseDto(String username, String email) {
         this.username = username;
         this.email = email;
-        this.password = password;
     }
 
     public static MyInfoResponseDto of (User user) {
         return MyInfoResponseDto.builder()
-                .userId(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .build();
     }
 }
