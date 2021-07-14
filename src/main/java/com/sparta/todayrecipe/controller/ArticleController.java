@@ -2,7 +2,6 @@ package com.sparta.todayrecipe.controller;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
 import com.sparta.todayrecipe.dto.ArticleResponseDto;
-import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
@@ -10,7 +9,6 @@ import com.sparta.todayrecipe.repository.ArticleRepository;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.ArticleService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

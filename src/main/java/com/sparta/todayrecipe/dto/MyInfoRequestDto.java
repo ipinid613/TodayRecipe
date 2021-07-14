@@ -3,7 +3,6 @@ package com.sparta.todayrecipe.dto;
 import com.sparta.todayrecipe.model.User;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter

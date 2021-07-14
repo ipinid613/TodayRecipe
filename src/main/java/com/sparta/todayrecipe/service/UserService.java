@@ -1,21 +1,14 @@
 package com.sparta.todayrecipe.service;
 
 
-import com.sparta.todayrecipe.dto.MyInfoRequestDto;
-import com.sparta.todayrecipe.dto.MyInfoResponseDto;
 import com.sparta.todayrecipe.dto.SignupRequestDto;
-import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.exception.UserRequestException;
-import com.sparta.todayrecipe.model.MyInfo;
+
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.UserRepository;
-import com.sparta.todayrecipe.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -93,22 +86,6 @@ public class UserService {
         }
         User user = new User(username, password, email);
         userRepository.save(user);
-    }
-
-    public MyInfoResponseDto findById(Long userId) {
-        return userRepository.findById(userId) // findById를 통해 게시물을 찾고,
-                .map(MyInfoResponseDto::of) // map() == 그 게시물에 ArticleDetailResponse를 적용하는데, 그 게시물의 내용은
-                // 'of'로 연결된 부분의 ArticleDetailResponse다.
-                // 그 내용이 DB에 입력된 안정적이고 변함없는 final한 값이어야 하므로 Article의 내용이어야 한다.
-                // Dto나 그냥 ArticleDetailResponse면 안된다.
-                // ArticleDetailResponse인데, of로 연결된 부분. 즉, Article.getId() 등등의 final한 내용을 받아와서 보여줘야 한다.
-                .orElseThrow(() -> new UserRequestException("일치하는 회원을 찾지 못했습니다."));
-    }
-
-    public MyInfoRequestDto checkPassword(Long id) {
-        return userRepository.findById(id)
-                .map(MyInfoRequestDto::a)
-                .orElseThrow(() -> new UserRequestException("비밀번호가 다릅니다."));
     }
 
     ////// 유저 비밀번호 변경(update) 관련 부분 //////

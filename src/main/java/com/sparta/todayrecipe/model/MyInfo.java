@@ -1,6 +1,6 @@
 package com.sparta.todayrecipe.model;
 
-import lombok.Generated;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
