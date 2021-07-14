@@ -31,11 +31,11 @@ public class CommentController {
 
     @ApiOperation("게시물의 댓글 작성")
     @PostMapping("/api/articles/{articleId}/comments")
-    public void createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public CommentResponseDto createComment(@PathVariable Long articleId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
             throw new CommentRequestException("로그인을 해야 댓글을 작성할 수 있습니다.");
         }
-        commentService.createComment(commentRequestDto, articleId, userDetails.getUser());
+        return commentService.createComment(commentRequestDto, articleId, userDetails.getUser());
     }
 
     @ApiOperation("게시물의 댓글 삭제")
