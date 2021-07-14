@@ -87,4 +87,5 @@ public class UserController {
         tu.add(token); //List형태 ["token" : {token}]
         return tu; // List형태 ["username" : {username}, "token" : {token}]
     }
+
 }
