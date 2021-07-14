@@ -76,7 +76,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void updateComment(CommentRequestDto commentRequestDto, Long articleId, Long commentId, User user) {
+    public CommentResponseDto updateComment(CommentRequestDto commentRequestDto, Long articleId, Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new CommentRequestException("requested commentId가 DB에 없습니다.")
         );
@@ -87,5 +87,13 @@ public class CommentService {
 
         comment.setContent(commentRequestDto.getContent());
         commentRepository.save(comment);
+
+        return new CommentResponseDto(
+                comment.getId(),
+                comment.getContent(),
+                comment.getCreatedAt(),
+                comment.getModifiedAt(),
+                comment.getUser().getUsername()
+        );
     }
 }
