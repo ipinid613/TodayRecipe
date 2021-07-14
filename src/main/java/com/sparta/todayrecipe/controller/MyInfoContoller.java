@@ -1,9 +1,8 @@
 package com.sparta.todayrecipe.controller;
 
-import com.sparta.todayrecipe.dto.MyInfoRequestDto;
+
 import com.sparta.todayrecipe.dto.MyInfoResponseDto;
 import com.sparta.todayrecipe.exception.UserRequestException;
-import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import java.lang.annotation.Repeatable;
+
 import java.util.HashMap;
 import java.util.Map;
 
