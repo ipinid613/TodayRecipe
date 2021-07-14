@@ -88,6 +88,10 @@ public class UserService {
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
         /// 위의 조건을 다 통과한 경우에 한해 userRepository.save 가능함 ///
         String email = signupRequestDto.getEmail();
+        if (userRepository.findByEmail(email).isPresent()) {
+            errorMessage = "중복된 email이 존재합니다.";
+            throw new UserRequestException(errorMessage);
+        }
         User user = new User(username, password, email);
         userRepository.save(user);
     }
