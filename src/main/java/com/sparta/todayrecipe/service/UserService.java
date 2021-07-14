@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.service;
 
 
 import com.sparta.todayrecipe.dto.SignupRequestDto;
+import com.sparta.todayrecipe.exception.UserRequestException;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
@@ -41,39 +42,33 @@ public class UserService {
     }
 
     // 회원가입 시, 유효성 체크
-    public Map<String, String> validateHandling(Errors errors) {
-        Map<String, String> validatorResult = new HashMap<>();
+    public void validateHandling(Errors errors) {
+        String errorMessage;
         for (FieldError error : errors.getFieldErrors()) {
-            // errors.getFieldErrors() :
-            // 입력 정보(아이디, 비밀번호, 비번 재확인, 이메일)의 유효성검사 결과에 대한 오류값(ex : 공백이 있다거나, 정규식 위반하는 경우들)
-            // 여러 오류값들을 for문을 돌며 하나 하나씩 꺼냄(ex : 아이디 유효성검사 결과 오류 하나)
-            String validKeyName = String.format("error", error.getField());
-            // 하나의 오류값을 format처리하여 validKeyName에 저장. / ex) {valid_username : "유저명은 필수 입력 값입니다"}
-            validatorResult.put(validKeyName, error.getDefaultMessage());
+            errorMessage = error.getField();
+            throw new UserRequestException(errorMessage);
         }
-
-        return validatorResult; // 유효성검사 통과 시 {msg : null} 반환하고 db에 저장됨.
     }
 
     // 회원가입
-    public String registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto) {
+    public void registerUser(@Valid @RequestBody SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
-        String errorMessage = null;
+        String errorMessage;
         // 회원 ID 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
             errorMessage = "중복된 사용자 ID 가 존재합니다.";
-//            throw new IllegalArgumentException(errorMessage);
-            return errorMessage;
+            throw new UserRequestException(errorMessage);
+
         }
         // 패스워드 속에 아이디값 중복 없애기
         if(signupRequestDto.getPassword().contains(username) || username.contains(signupRequestDto.getPassword())) {
             errorMessage = "ID을 포함한 비번은 사용불가합니다.";
-            return errorMessage;
+            throw new UserRequestException(errorMessage);
         }
         if (!signupRequestDto.getPassword().equals(signupRequestDto.getRepassword())) {
             errorMessage = "비밀번호가 일치하지 않습니다.";
-            return errorMessage;
+            throw new UserRequestException(errorMessage);
         }
 
         // 패스워드 인코딩
@@ -82,7 +77,7 @@ public class UserService {
         String email = signupRequestDto.getEmail();
         User user = new User(username, password, email);
         userRepository.save(user);
-        return errorMessage;
+
     }
 
     public void kakaoLogin(String authorizedCode) {
