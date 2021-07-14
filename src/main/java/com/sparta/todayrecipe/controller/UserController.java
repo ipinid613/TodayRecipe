@@ -62,14 +62,6 @@ public class UserController {
     //    }
 
 
-    // 카카오톡
-    @GetMapping("/user/kakao/callback")
-    public void kakaoLogin(String code) {
-        // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        userService.kakaoLogin(code);
-
-    }
-
     // 로그인
     @PostMapping("/user/login")
     public List<Map<String,String>> login(@RequestBody Map<String, String> user) {
