@@ -1,6 +1,8 @@
 package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
+import com.sparta.todayrecipe.dto.ArticleResponseDto;
+import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
@@ -10,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -59,4 +63,24 @@ public class ArticleService {
     }
 
 
+    public List<ArticleResponseDto> getSearchedArticles(String keyword) {
+        List<Article> articles = articleRepository.findByTitleContaining(keyword);
+        List<ArticleResponseDto> articleResponseDtos = new ArrayList<>();
+
+        for(Article article : articles){
+            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getUser().getUsername(), // <-- Dto 효율성의 좋은 예시
+                    article.getContent(),
+                    article.getCreatedAt(),
+                    article.getModifiedAt(),
+                    article.getImageUrl()
+            );
+
+            articleResponseDtos.add(articleResponseDto);
+        }
+
+        return articleResponseDtos;
+    }
 }

@@ -7,4 +7,12 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByOrderByModifiedAtDesc();
+
+    List<Article> findByTitleContaining(String keyword);
+
+    List<Article> findByTitleIsContaining(String keyword);
+
+    List<Article> findByTitleContains(String keyword);
+
+    List<Article> findByTitleLike(String wildCard);
 }
