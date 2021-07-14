@@ -1,6 +1,8 @@
 package com.sparta.todayrecipe.service;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
+import com.sparta.todayrecipe.dto.ArticleResponseDto;
+import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -59,4 +62,12 @@ public class ArticleService {
     }
 
 
+    public void getSearchedArticles(String keyword) {
+        String wildCard = "%" + keyword + "%";
+        List<Article> articles1 = articleRepository.findByTitleContaining(wildCard);
+        List<Article> articles2 = articleRepository.findByTitleIsContaining(wildCard);
+        List<Article> articles3 = articleRepository.findByTitleContains(wildCard);
+
+        List<Article> articles4 = articleRepository.findByTitleLike(keyword);
+    }
 }

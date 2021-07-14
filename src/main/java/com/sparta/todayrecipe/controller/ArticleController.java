@@ -2,6 +2,7 @@ package com.sparta.todayrecipe.controller;
 
 import com.sparta.todayrecipe.dto.ArticleRequestDto;
 import com.sparta.todayrecipe.dto.ArticleResponseDto;
+import com.sparta.todayrecipe.dto.CommentResponseDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.model.Article;
 import com.sparta.todayrecipe.model.ArticleDetailResponse;
@@ -9,6 +10,7 @@ import com.sparta.todayrecipe.repository.ArticleRepository;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
 import com.sparta.todayrecipe.service.ArticleService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +30,11 @@ public class ArticleController {
     private final ArticleService articleService;
     private final UserRepository userRepository;
     // ArticleRequestDto는 의존성이 필요한게 아니고 단순히 파라미터에 들어가는 내용이기 때문에 이곳에 작성하지 않음.
+
+    @GetMapping("/api/articles/search")
+    public void getSearchedComments(@RequestParam("query") String keyword) {
+        articleService.getSearchedArticles(keyword);
+    }
 
     ////////// READ //////////
     ///모든 게시물 조회///
