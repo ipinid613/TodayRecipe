@@ -6,6 +6,7 @@ import com.sparta.todayrecipe.dto.MyInfoResponseDto;
 import com.sparta.todayrecipe.dto.SignupRequestDto;
 import com.sparta.todayrecipe.exception.ArticleRequestException;
 import com.sparta.todayrecipe.exception.UserRequestException;
+import com.sparta.todayrecipe.model.MyInfo;
 import com.sparta.todayrecipe.model.User;
 import com.sparta.todayrecipe.repository.UserRepository;
 import com.sparta.todayrecipe.security.UserDetailsImpl;
@@ -23,6 +24,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -183,6 +185,22 @@ public class UserService {
         return userRepository.findById(id)
                 .map(MyInfoRequestDto::a)
                 .orElseThrow(() -> new UserRequestException("비밀번호가 다릅니다."));
+    }
+
+    ////// 유저 비밀번호 변경(update) 관련 부분 //////
+    @Transactional
+    public Long update(Long id, MyInfoRequestDto myInfoRequestDto, User user){
+        User userFound = userRepository.findById(id).orElseThrow(
+                () -> new UserRequestException("requested id가 DB에 없습니다.")
+        );
+
+        if (!userFound.getId().equals(user.getId())) {
+            throw new UserRequestException("이 계정의 소유자만 접근할 수 있습니다.");
+        }
+
+        userFound.setPassword(myInfoRequestDto.getPassword());
+        userRepository.save(userFound);
+        return userFound.getId();
     }
 }
 
