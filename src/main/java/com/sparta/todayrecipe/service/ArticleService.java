@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -62,12 +63,24 @@ public class ArticleService {
     }
 
 
-    public void getSearchedArticles(String keyword) {
-        String wildCard = "%" + keyword + "%";
-        List<Article> articles1 = articleRepository.findByTitleContaining(wildCard);
-        List<Article> articles2 = articleRepository.findByTitleIsContaining(wildCard);
-        List<Article> articles3 = articleRepository.findByTitleContains(wildCard);
+    public List<ArticleResponseDto> getSearchedArticles(String keyword) {
+        List<Article> articles = articleRepository.findByTitleContaining(keyword);
+        List<ArticleResponseDto> articleResponseDtos = new ArrayList<>();
 
-        List<Article> articles4 = articleRepository.findByTitleLike(keyword);
+        for(Article article : articles){
+            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getUser().getUsername(), // <-- Dto 효율성의 좋은 예시
+                    article.getContent(),
+                    article.getCreatedAt(),
+                    article.getModifiedAt(),
+                    article.getImageUrl()
+            );
+
+            articleResponseDtos.add(articleResponseDto);
+        }
+
+        return articleResponseDtos;
     }
 }

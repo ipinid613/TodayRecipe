@@ -32,8 +32,8 @@ public class ArticleController {
     // ArticleRequestDto는 의존성이 필요한게 아니고 단순히 파라미터에 들어가는 내용이기 때문에 이곳에 작성하지 않음.
 
     @GetMapping("/api/articles/search")
-    public void getSearchedComments(@RequestParam("query") String keyword) {
-        articleService.getSearchedArticles(keyword);
+    public List<ArticleResponseDto> getSearchedComments(@RequestParam("query") String keyword) {
+        return articleService.getSearchedArticles(keyword);
     }
 
     ////////// READ //////////
