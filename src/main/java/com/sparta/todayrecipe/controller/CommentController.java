@@ -50,10 +50,10 @@ public class CommentController {
 
     @ApiOperation("게시물의 댓글 수정")
     @PutMapping("/api/articles/{articleId}/comments/{commentId}")
-    public void updateComment(@RequestBody CommentRequestDto commentRequestDto, @PathVariable Long articleId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public CommentResponseDto updateComment(@RequestBody CommentRequestDto commentRequestDto, @PathVariable Long articleId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(userDetails==null){
             throw new CommentRequestException("로그인을 해야 댓글을 수정할 수 있습니다.");
         }
-        commentService.updateComment(commentRequestDto, articleId, commentId, userDetails.getUser());
+        return commentService.updateComment(commentRequestDto, articleId, commentId, userDetails.getUser());
     }
 }
