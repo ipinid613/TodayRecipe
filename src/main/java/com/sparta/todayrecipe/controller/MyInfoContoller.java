@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.lang.annotation.Repeatable;
+import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -25,39 +27,59 @@ public class MyInfoContoller {
     private final BCryptPasswordEncoder passwordEncoder;
 
     //유저 정보 페이지
-    @GetMapping("/myinfo/{userId}")
-    public ResponseEntity<MyInfoResponseDto> findById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.findById(userId));
+    @GetMapping("/myinfo")
+    public ResponseEntity<MyInfoResponseDto> findById(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new UserRequestException("로그인 한 사용자만 유저 정보를 볼 수 있습니다.");
+        }
+        MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.of(userDetails.getUser());
+
+        return ResponseEntity.ok(myInfoResponseDto);
     }
 
     //비밀번호 수정 전, 현재 설정된 비밀번호가 맞는지 확인
-    @PostMapping("/myinfo/{userId}")
-    public String checkPassword(@PathVariable Long userId, @RequestBody Map<String, String> password) {
+    @PostMapping("/myinfo")
+    public Map<String, String> checkPassword(@RequestBody Map<String, String> password, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        String result = null;
 
-        String dbPassword = userService.checkPassword(userId).getPassword();
+        if (userDetails == null) {
+            throw new UserRequestException("로그인 한 사용자만 비밀번호 체크를 할 수 있습니다.");
+        }
+        String dbPassword = userDetails.getPassword();
 
         String check = password.get("password");
 
         if (!passwordEncoder.matches(check, dbPassword)) {
             throw new UserRequestException("현재 비밀번호와 일치하지 않습니다.");
         }
-        result = "현재 비밀번호와 일치합니다.";
-    return result;
+
+        Map<String, String> result = new HashMap<>();
+
+        result.put("result", "현재 비밀번호와 일치합니다");
+
+        return result;
     }
 
     ////// 유저 비밀번호 변경 요청 //////
-    @PutMapping("/myinfo/{userId}")
-    public String editPassword(@PathVariable Long userId, MyInfoRequestDto myInfoRequestDto, @RequestBody Map<String, String> newPassword, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String result = null;
+    @PutMapping("/myinfo")
+    public ResponseEntity<MyInfoResponseDto> editPassword(@RequestBody Map<String, String> newPassword, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new UserRequestException("로그인 한 사용자만 비밀번호 변경을 할 수 있습니다.");
+        }
+
+        Map<String, String> result = new HashMap<>();
         String newPass = newPassword.get("newpassword");
         String rePass = newPassword.get("renewpassword");
         if (!newPass.equals(rePass)) {
             throw new UserRequestException("비밀번호가 서로 일치하지 않습니다.");
         }
-        result = "비밀번호 변경이 완료되었습니다.";
-        userService.update(userId, myInfoRequestDto, userDetails.getUser());
-        return result;
+//        result.put("result", "비밀번호 변경이 완료되었습니다.");
+        userService.update(newPass, userDetails.getUser());
+//        return result;
+
+        MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.of(userDetails.getUser());
+
+        return ResponseEntity.ok(myInfoResponseDto);
+
     }
 }

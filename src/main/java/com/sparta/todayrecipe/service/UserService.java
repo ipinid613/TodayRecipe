@@ -113,17 +113,8 @@ public class UserService {
 
     ////// 유저 비밀번호 변경(update) 관련 부분 //////
     @Transactional
-    public Long update(Long id, MyInfoRequestDto myInfoRequestDto, User user){
-        User userFound = userRepository.findById(id).orElseThrow(
-                () -> new UserRequestException("requested id가 DB에 없습니다.")
-        );
-
-        if (!userFound.getId().equals(user.getId())) {
-            throw new UserRequestException("이 계정의 소유자만 접근할 수 있습니다.");
-        }
-
-        userFound.setPassword(myInfoRequestDto.getPassword());
-        userRepository.save(userFound);
-        return userFound.getId();
+    public void update(String newPass, User user){
+        user.setPassword(passwordEncoder.encode(newPass));
+        userRepository.save(user);
     }
 }
