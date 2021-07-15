@@ -39,7 +39,7 @@ public class ArticleController {
     @GetMapping("/api/articles")
     public List<ArticleResponseDto> readArticle() {
 
-        List<Article> articles = articleRepository.findAllByOrderByModifiedAtDesc();
+        List<Article> articles = articleRepository.findAllByOrderByCreatedAtDesc();
 
         List<ArticleResponseDto> articleResponseDtos = new ArrayList<>();
         //계층 간 작업 시 Dto를 사용하는 습관을 갖는게 중요함.

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    List<Article> findAllByOrderByModifiedAtDesc();
 
     List<Article> findByTitleContaining(String keyword);
 
@@ -15,4 +14,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByTitleContains(String keyword);
 
     List<Article> findByTitleLike(String wildCard);
+
+    List<Article> findAllByOrderByCreatedAtDesc();
 }
