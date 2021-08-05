@@ -4,9 +4,10 @@
 - [개발 과정](#개발-과정)
   - [개발 기간](#1-개발-기간)
   - [사용 언어](#2-사용-언어)
-  - [기능 구현 목표](#3-기능-구현-목표)
-  - [와이어프레임 설계](#4-와이어프레임-설계)
+  - [프로젝트 목표](#3-프로젝트-)
+  - [와이어프레임 설계](#4-와이어프레임-설계(Figma-활용))
   - [API 설계](#5-API-설계)
+  - [DB 설계](#6-DB-설계)
 - [개발 결과](#개발-결과)
   - [구현한 기능](#1구현한-기능)
   - [실제 서비스 모습](#2-실제-서비스-모습)
@@ -37,138 +38,192 @@
 6. 비밀번호 변경
 
 #### 4. 와이어프레임 설계(Figma 활용)
-[ㅇ](https://www.figma.com/file/oZF7U6mjOvXaIq3nfeeKKf/%ED%95%AD%ED%95%B499-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-24%EC%A1%B0?node-id=0%3A1)
+[Figma 설계 보러가기](https://www.figma.com/file/oZF7U6mjOvXaIq3nfeeKKf/%ED%95%AD%ED%95%B499-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-24%EC%A1%B0?node-id=0%3A1)
 
-1. 회원가입
-![회원가입1](https://user-images.githubusercontent.com/85334989/128336199-996a5d6c-6e70-4e7a-8848-2b622d8f52f4.png width="700" height="500")
-![회원가입2](https://user-images.githubusercontent.com/85334989/128336294-725691be-8ff4-40e8-a505-3a63f1ddd1fb.png width="700" height="500")
+- 회원가입
+
+![회원가입1](https://user-images.githubusercontent.com/85334989/128336199-996a5d6c-6e70-4e7a-8848-2b622d8f52f4.png)
+![회원가입2](https://user-images.githubusercontent.com/85334989/128336294-725691be-8ff4-40e8-a505-3a63f1ddd1fb.png)
 
 
 2. 로그인
-![로그인](https://user-images.githubusercontent.com/85334989/128336344-2b783a07-e22f-48f8-823a-488808dbceff.png width="700" height="500")
+
+![로그인](https://user-images.githubusercontent.com/85334989/128336344-2b783a07-e22f-48f8-823a-488808dbceff.png)
 
 3. 메인페이지
-![메인페이지](https://user-images.githubusercontent.com/85334989/128336417-12e97821-06d1-4a1d-8a6c-2ab194008070.png width="700" height="500")
+
+![메인페이지](https://user-images.githubusercontent.com/85334989/128336417-12e97821-06d1-4a1d-8a6c-2ab194008070.png)
 
 4. 상세 페이지
-![상세 페이지](https://user-images.githubusercontent.com/85334989/128336485-dccccaa6-038a-48ac-8755-161eec7a2638.png width="700" height="1000")
+
+![상세 페이지](https://user-images.githubusercontent.com/85334989/128336485-dccccaa6-038a-48ac-8755-161eec7a2638.png)
 
 5. 게시글 작성&수정 페이지
-![게시글 작성 페이지](https://user-images.githubusercontent.com/85334989/128336550-ab747d6a-5244-4027-aa32-aa8a39805f4e.png width="700" height="500")
+
+![게시글 작성 페이지](https://user-images.githubusercontent.com/85334989/128336550-ab747d6a-5244-4027-aa32-aa8a39805f4e.png)
 
 #### 5. API 설계
+- Swagger 2.0을 이용하여 API를 관리하였습니다.
+![API 설계](https://user-images.githubusercontent.com/85334989/128338423-100f420c-d2c2-4cfc-ba00-b37bea8eb9d6.png)
 
-| 페이지 | 기능 | API URL | Method |
-|:----------|:----------:|:----------:|:----------:|
-| letin.html | 회원가입 | /sign_up/save | POST |
-| letin.html | 중복가입 체크 - 아이디 | /sign_up/checkDup | POST |
-| letin.html | 중복가입 체크 - 닉네임 | /sign_up/nik_checkDup | POST |
-| login.html | 로그인 | / | GET, POST |
-| index.html | 메인페이지 / 게시글 전체조회 | /home | - |
-| write.html | 게시글 작성 | /contents | POST |
-| update.html | 게시글 수정 | /update | POST |
-| write.html | 게시글 삭제 | /delete | POST | 
+#### 6. DB 설계
+![image](https://user-images.githubusercontent.com/85334989/128343753-30e5633e-bb42-4cf9-a363-e8756fb2f146.png)
+
 
 ---
 ### 개발 결과
 
 #### 1.구현한 기능
-처음 목표했던 7가지 기능 중, 3가지(`회원가입, 로그인, CRUD 게시판`)를 구현하였습니다. 나머지 4가지 기능은 끝까지 시도하다가 시간적 제약으로 인해 제외하고 배포를 하였습니다.</br></br>
-대신, 저희 팀이 구현할 수 있던 위 3가지 기능에 추가적인 기능(후술)을 더하고, 사용자가 보기에 예쁜 웹을 만들기 위해 노력했습니다.</br></br>
-- 정규식을 활용한 회원가입 시 입력값 검증 기능
-```javascript
-// {# 아이디, 비밀번호 정규식!! #}
+**1. CORS 문제 해결**
 
-function is_username(asValue) {
-    //{# 괄호 ( )안의 요소는 필수 포함 요소임. a-zA-Z 소문자 a-z, 대문자 A-Z 포함! 대괄호는 선택포함을 의미함. 숫자 0-9사용가능!. 2-10자여야 한다.#}
-    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
-    return regExp.test(asValue); // {# .test 메서드를 통해 boolean 값으로 return 가능 #}
-}
-
-function is_nickname(asValue) {
-    var regExp = /^[가-힣ㄱ-ㅎa-zA-Z0-9._-]{2,}$/;
-    return regExp.test(asValue);
-}
-
-function is_password(asValue) {
-    // {# *\d = 숫자 무조건 포함해라#}
-    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
-    return regExp.test(asValue);
+본 프로젝트에서는 프론트엔드(React.js)와 백엔드(Spring)가 각각 다른 환경에서 개발했습니다. 즉, 각 단의 독립적인 서버(도메인)를 열어 작업해야 했습니다.<br></br>
+서버단에서는 필요한 API를 모두 생성/관리하고, 프론트엔드에서는 서버에서 구축한 API를 활용하도록 했습니다.<br></br>
+이 과정에서 CORS 문제가 발생하기도 했습니다. CORS는 웹개발을 하다가 흔히 만날 수 있는 이슈입니다. 대개는 프론트엔드 개발시에 로컬에서 API 서버에 요청을 보낼 때 흔하게 발생합니다.
+서로 다른 도메인간에 자원을 공유하는 것을 뜻합니다. 대부분의 브라우저에서는 이를 기본적으로 차단하며, 서버측에서 헤더를 통해서 사용가능한 자원을 알려준다는 것을 배웠습니다.
+```java
+//CORS 허용 설정 부분
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://todayrecipe.shop.s3-website.ap-northeast-2.amazonaws.com","http://localhost:3000","http://todayrecipe.shop/")
+                //클라이언트 로컬 주소임. 클라이언트에서 내 서버의 api에 접근 시 허용에 관한 부분. CORS.
+                //2개 이상의 origin에 대해서 허용할 수 있음!
+                .allowedMethods("POST","GET","PUT","DELETE","HEAD","OPTIONS") // 클라이언트에서 요청하는 메소드 어디까지 허용할 것인가.
+                .allowCredentials(true);
+    }
 ```
 
-- 회원가입 시 아이디 중복확인 기능
-```javascript
-// {# 아이디 중복확인 #}
+**2. Spring 환경에서 JWT 방식의 로그인**
 
-function check_dup() {
-    let username = $("#input-username").val()
-    if (username == "") {
-        $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-        $("#input-username").focus()
-        return;
-    }
-    if (!is_username(username)) {
-        $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
-        $("#input-username").focus()
-        return;
-    }
-    $("#help-id").addClass("is-loading")
-    $.ajax({
-        type: "POST",
-        url: "/sign_up/checkDup",
-        data: {
-            id: username
-        },
-        success: function (response) {
-            if (response["exists"]) {
-                $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
-                $("#input-username").focus()
-            } else {
-                $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
-            }
-            $("#help-id").removeClass("is-loading")
+이번 프로젝트에서 가장 애먹었던 부분입니다. 로그인에 성공한 유저에게 **토큰**을 발행하여 이를 프론트단에 보내고, 프론트단에서는 서버의 API에 접근할 때 이 **토큰**을 포함하고,
+서버에서는 받은 **토큰**을 검증하는 단계가 계속 이루어지게 해야 했습니다.
+
+![jwt1](https://user-images.githubusercontent.com/85334989/128339887-413af3a0-65e5-4394-8f07-017923ee2b48.png)
+![jwt2](https://user-images.githubusercontent.com/85334989/128339853-11304c4e-44ed-4a82-ac2f-f1464b5eb623.png)
+
+계속 고민했던 부분은 그림의 `6번` 과정이었습니다. 서버에서 토큰 발행하고, 클라이언트에서 토큰을 포함해 요청하는 것 까지는 성공했으나, **서버에서 토큰을 어떻게 받고 검증할 지**가 가장 큰 고민이었습니다. **ARC**라는 API 테스트 툴로 유저 정보 인증이 필요한 API에 request 할 경우, 계속해서 오류가 발생했습니다.<br></br>
+
+개발기간이 총 7일이 주어졌는데, 이 문제를 해결하기 위해서 총 3.5일의 시간이 걸렸습니다.
+
+**오류가 계속 발생했던 원인은 클라이언트에서 서버로 보내는 요청의 Header의 이름이 클라이언트-서버 간에 일치하지 않았기 때문이었습니다**
+```java
+//서버의 JwtTokenProvider.java
+public String resolveToken(HttpServletRequest request) {
+     return request.getHeader("X-AUTH-TOKEN");
+ }
+
+------------------------------------------------------------------------------
+
+// 서버의 JwtAuthenticationFilter.java
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends GenericFilterBean {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // 헤더에서 JWT 를 받아옵니다.
+        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+        System.out.println(token); // 클라이언트에서 받은 token값을 서버 콘솔에 찍어줌.
+        // 유효한 토큰인지 확인합니다.
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            // validateToken의 결과가 True라면~~~
+            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
+
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            // 토큰 인증과정을 거친 결과를 authentication이라는 이름으로 저장해줌.
+
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // SecurityContext 에 Authentication 객체를 저장합니다.
+            // token이 인증된 상태를 유지하도록 context(맥락)을 유지해주는 부분임.
         }
-    });
-}
+        chain.doFilter(request, response); //request 받아서 filter를 거친 결과를 response로 내려줌.
 ```
+서버에서 지정한 Header의 이름이 `X-AUTH-TOKEN`이었는데, 클라이언트단에서는 Header의 이름을 다르게 지정하여 요청을 보내고 있었습니다.
 
--게시글 작성 시간 표현방법 변경(js의 Date() → 알아보기 쉬운 표현)
-```javascript
-function time2str(date) {
-    let today = new Date()
-    let time = (today - date) / 1000 / 60 + 540
+막혔던 부분을 해결하고, 이후의 인증 과정 또한 정상적으로 이루어졌습니다.
 
-    if (time < 60) {
-        return parseInt(time) + "분 전"
+**3. 검색**
+검색기능을 추가하기 위해 API를 추가로 생성했습니다.
+```java
+// Controller
+@GetMapping("/api/articles/search")
+    public List<ArticleResponseDto> getSearchedComments(@RequestParam("query") String keyword) {
+        return articleService.getSearchedArticles(keyword);
     }
-    time = time / 60 // 시간
-    if (time < 24) {
-        return parseInt(time) + "시간 전"
+// Service
+public List<ArticleResponseDto> getSearchedArticles(String keyword) {
+        List<Article> articles = articleRepository.findByTitleContaining(keyword);
+        List<ArticleResponseDto> articleResponseDtos = new ArrayList<>();
+        for(Article article : articles){
+            ArticleResponseDto articleResponseDto = new ArticleResponseDto(
+                    article.getId(),
+                    article.getTitle(),
+                    article.getUser().getUsername(),
+                    article.getContent(),
+                    article.getCreatedAt(),
+                    article.getModifiedAt(),
+                    article.getImageUrl()
+            );
+            articleResponseDtos.add(articleResponseDto);
+        }
+        return articleResponseDtos;
     }
-    time = time / 24
-    if (time < 24) {
-        return parseInt(time) + "일 전"
-    }
-    return date.getFullYear() + '년', date.getMonth() + 1 + '월', date.getDate() + '일'
-}
 ```
+JPA 문법을 활용하여 `ArticleRepository`에 `findByTitleContaning`이라는 메서드를 추가했습니다. 클라이언트에서 위 API를 요청할 때 포함해서 보내는 검색어가 `Title`에 대응하고, 이 대응된 문자열이 포함된 **Article**을 모두 찾는 메서드입니다.
 
--게시글 작성 최신순 정렬 기능
-```python
-@app.route('/lastes')
-def lastes():
-    lastes = list(db.contents.find({}, {'_id': False}).sort('uploadingTime', -1))
-    return jsonify({'all_contents': lastes})
+**4. 비밀번호 변경**
+일반적으로 비밀번호를 변경하기 위해서는 **1. 현재 비밀번호 입력**, **2. 변경할 비밀번호 입력**, **3. 변경할 비밀번호 재입력**의 과정을 거치게 됩니다.
+
+이를 구현하기 위해서 **1. 현재 비밀번호 입력**받고 확인하는 코드를 아래와 같이 구현했습니다.
+```java
+// 유저 비밀번호 확인 Controller
+@PostMapping("/myinfo")
+    public Map<String, String> checkPassword(@RequestBody Map<String, String> password, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new UserRequestException("로그인 한 사용자만 비밀번호 체크를 할 수 있습니다.");
+        }
+        String dbPassword = userDetails.getPassword();
+        String check = password.get("password");
+        if (!passwordEncoder.matches(check, dbPassword)) {
+            throw new UserRequestException("현재 비밀번호와 일치하지 않습니다.");
+        }
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "현재 비밀번호와 일치합니다");
+        return result;
+    }
+```
+위 과정이 통과되어야 새 비밀번호를 입력 가능하도록 만들었습니다. 이후 **2번, 3번** 과정을 검증하기 위해 아래와 같은 코드로 구현했습니다.
+```java
+////// 유저 비밀번호 변경 요청 Controller//////
+    @PutMapping("/myinfo")
+    public ResponseEntity<MyInfoResponseDto> editPassword(@RequestBody Map<String, String> newPassword, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new UserRequestException("로그인 한 사용자만 비밀번호 변경을 할 수 있습니다.");
+        }
+        Map<String, String> result = new HashMap<>();
+        String newPass = newPassword.get("newpassword");
+        String rePass = newPassword.get("renewpassword");
+        if (!newPass.equals(rePass)) {
+            throw new UserRequestException("비밀번호가 서로 일치하지 않습니다.");
+        }
+//        result.put("result", "비밀번호 변경이 완료되었습니다.");
+        userService.update(newPass, userDetails.getUser());
+//        return result;
+        MyInfoResponseDto myInfoResponseDto = MyInfoResponseDto.of(userDetails.getUser());
+        return ResponseEntity.ok(myInfoResponseDto);
+    }
 ```
 
 #### 2. 실제 서비스 모습
-[시연 영상 YouTube 이동](https://www.youtube.com/watch?v=UcEe40xzBko)
+[시연 영상 YouTube 이동](https://www.youtube.com/watch?v=NF_MD1WTnFI&t=53s)
 
 #### 3. 회고 및 피드백
-- 사용자 친화적인 웹서비스를 개발하기 위해서 '내가 사용자라면 이런 기능이 있으면 좋겠다' 싶은 것들을 많이 고민했습니다.
-- 코딩에 친숙하지 않은 사람들이 만나 주어진 개발 시간 내 가능한 개발의 수준이 어느정도인지 감이 잡히지 않은 채 목표를 설정하는 실수도 있었습니다.
-- 최초 목표했던 기능들을 모두 구현하지는 못했지만, `이론보다는 일단 당장 개발해보자` 는 모토를 갖고 협업하여 어떻게든 좋은 서비스를 완성해 배포해보는 좋은 경험이었습니다.
-- 이미지/버튼 배치하는 것, 간단한 기능을 구현하는 것에도 개발자들의 수많은 고민이 필요했다는 것을 깨달았습니다.
-- 좋아요 기능을 끝까지 포기하지 않고 적용하려고 했으나 시간 내 완성할 수 없을 것 같아서 포기했습니다. 다음에 꼭 다시 도전해보고 싶은 기능입니다.
-- 전반적인 API의 흐름, 각개 기능이 서버와 클라이언트 간 어떻게 통신한 결과인지 등의 큰 흐름을 이해할 수 있었습니다. 
-- 팀 내에서 어떻게 역할을 분배할지, 주어진 조건 대비 실현 가능한 목표는 어느정도인지, 협업 간 GitHub은 어떻게 활용할지를 고민해볼 수 있었습니다.
+- 백엔드, 프론트엔드로 분리된 개발환경에서 각자 개발을 하고, 이를 한 개의 결과물로 만드는 과정에서 나타나는 문제(CORS, JWT인증)를 겪고 이를 해결해보는 좋은 경험이었습니다.
+- 주특기를 선택하고 공부하기 이전에 프로젝트를 진행할 때에는 프론트엔드, 백엔드 구분 없이 모두가 동일한 Repository의 동일한 file을 갖고 기능단위로 역할을 맡아 개발을 했었습니다. 
+- 최초에 그렸던 와이어프레임과 완전히 동일하게(view)는 구현하지 못했지만, 기능적으로는 90% 이상 달성한 뿌듯한 프로젝트입니다.
+- Spring 공부를 시작하고 혼자 프로젝트를 진행할 때에는 썩 예쁜 페이지를 만들지 못했지만, 프론트엔드 개발자들과 협업하면서 온전히 백엔드 개발에만 몰입할 수 있었고, 보기에도 예쁜 페이지를 만들 수 있었습니다.
+- 이번 프로젝트에서는 `좋아요`, `프로필사진`의 소셜 기능을 담지 못했지만, 추후 더욱 연구해서 꼭 적용해보고 싶다는 생각을 했습니다.
