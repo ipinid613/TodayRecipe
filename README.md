@@ -147,6 +147,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 막혔던 부분을 해결하고, 이후의 인증 과정 또한 정상적으로 이루어졌습니다.
 
 **3. 검색**
+
 검색기능을 추가하기 위해 API를 추가로 생성했습니다.
 ```java
 // Controller
@@ -176,6 +177,7 @@ public List<ArticleResponseDto> getSearchedArticles(String keyword) {
 JPA 문법을 활용하여 `ArticleRepository`에 `findByTitleContaning`이라는 메서드를 추가했습니다. 클라이언트에서 위 API를 요청할 때 포함해서 보내는 검색어가 `Title`에 대응하고, 이 대응된 문자열이 포함된 **Article**을 모두 찾는 메서드입니다.
 
 **4. 비밀번호 변경**
+
 일반적으로 비밀번호를 변경하기 위해서는 **1. 현재 비밀번호 입력**, **2. 변경할 비밀번호 입력**, **3. 변경할 비밀번호 재입력**의 과정을 거치게 됩니다.
 
 이를 구현하기 위해서 **1. 현재 비밀번호 입력**받고 확인하는 코드를 아래와 같이 구현했습니다.
